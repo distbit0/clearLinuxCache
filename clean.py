@@ -9,23 +9,22 @@ parser.add_argument("--extreme", action="store_true", help="Perform extreme clea
 
 
 commands = [
-    ["Clearing apt cache", "sudo apt clean"],
-    ["Clearing old downloaded archive files", "sudo apt-get autoclean"],
-    ["Clearing old unused kernel and dependencies", "sudo apt autoremove --purge"],
+    ["Clearing apt cache", "apt clean"],
+    ["Clearing old downloaded archive files", "apt-get autoclean"],
     [
         "Clearing systemd journal logs older than 1 day",
-        "sudo journalctl --vacuum-time=5h",
+        "journalctl --vacuum-time=5h",
     ],
     ["Clearing user-specific cache", "rm -rf ~/.cache/*"],
     ["Clearing Thumbnail cache", "rm -rf ~/.cache/thumbnails/*"],
     ["Clearing CUPS print jobs", "cancel -a"],
     [
         "Deleting old configuration files",
-        "sudo dpkg -l | grep '^rc' | awk '{print $2}' | xargs sudo dpkg --purge",
+        "dpkg -l | grep '^rc' | awk '{print $2}' | xargs dpkg --purge",
     ],
     [
         "Deleting old Linux Headers",
-        "sudo apt autoremove --purge -y $(dpkg --list | grep linux-image | awk '{ print $2 }' | sort -V | sed -n '/'`uname -r`'/q;p')",
+        "apt autoremove --purge -y $(dpkg --list | grep linux-image | awk '{ print $2 }' | sort -V | sed -n '/'`uname -r`'/q;p')",
     ],
     ["Deleting unused Flatpak packages", "flatpak uninstall --unused"],
     ["Deleting Node Modules cache", "npm cache clean --force"],
@@ -40,7 +39,7 @@ commands = [
         "Clearing Brave Browser Metrics",
         "rm -rf ~/.config/BraveSoftware/Brave-Browser/BrowserMetrics/*",
     ],
-    ["Purging autoremovable packages", "apt --purge autoremove"],
+    ["Purging autoremovable packages", "apt autoremove --purge"],
     ["Clearing syslog", "cat /dev/null > /var/log/syslog"],
     ["Removing syslog.1", "rm /var/log/syslog.1"],
     ["Clearing VS Code cache", "rm -rf ~/.config/Code/Cache/Cache_Data/*"],
@@ -74,9 +73,7 @@ def remove_disabled_snaps():
     print_and_execute_command(
         "Setting Snap refresh retain limit", "snap set system refresh.retain=2"
     )
-    print_and_execute_command(
-        "Deleting Snap cache", "sudo rm -rf /var/lib/snapd/cache/*"
-    )
+    print_and_execute_command("Deleting Snap cache", "rm -rf /var/lib/snapd/cache/*")
 
 
 def replace_tilde_with_home_directory(command):
@@ -87,11 +84,10 @@ def replace_tilde_with_home_directory(command):
 def print_and_execute_command(description, command):
     print(f"\n{description}\n")
     command = replace_tilde_with_home_directory(command)
-    result = subprocess.run(
-        command, shell=True, stderr=subprocess.PIPE, stdout=subprocess.PIPE
-    )
-    if result.returncode != 0:
-        print(f"Error: {result.stderr.decode()}")
+    return_code = os.system(command)
+
+    if return_code != 0:
+        print(f"Error: Command returned with code {return_code}")
 
 
 def executeCommands(extremeClean=False):
