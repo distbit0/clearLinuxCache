@@ -54,7 +54,7 @@ commands = [
     ["Clearing syslog", "cat /dev/null > /var/log/syslog"],
     ["Removing syslog.1", "rm /var/log/syslog.1"],
     ["Clearing VS Code cache", "rm -rf ~/.config/Code/Cache/Cache_Data/*"],
-    ["Clearing VS Code cache", "rm -rf ~/.config/Obsidian/Cache/Cache_Data/*"],
+    ["Clearing Obsidian cache", "rm -rf ~/.config/obsidian/Cache/Cache_Data/*"],
 ]
 
 extremeCleanCommands = [
@@ -94,8 +94,8 @@ def replace_tilde_with_home_directory(command):
 
 
 def print_and_execute_command(description, command):
-    print(f"\n{description}\n")
     command = replace_tilde_with_home_directory(command)
+    print("\n" + description, ":", command + "\n")
     return_code = os.system(command)
 
     if return_code != 0:
