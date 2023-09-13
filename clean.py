@@ -52,7 +52,6 @@ extremeCleanCommands = [
         "rm -rf ~/.config/BraveSoftware/Brave-Browser/Default/Service\\ Worker/*",
     ],
     ["Deleting Signal Attachments", "rm -rf ~/.config/Signal/attachments.noindex/*"],
-    ["Deleting Zoom cache", "rm -rf ~/.zoom/*"],
     ["Deleting Screenshots", "rm -rf ~/Pictures/Screenshots/*"],
     ["Deleting Screencasts", "rm -rf ~/Pictures/Casts/*"],
 ]
