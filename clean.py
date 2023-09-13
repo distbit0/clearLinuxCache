@@ -9,8 +9,8 @@ parser.add_argument("--extreme", action="store_true", help="Perform extreme clea
 
 
 commands = [
-    ["Clearing apt cache", "apt clean"],
-    ["Clearing old downloaded archive files", "apt-get autoclean"],
+    ["Clearing apt cache", "apt clean -y"],
+    ["Clearing old downloaded archive files", "apt-get autoclean -y"],
     [
         "Clearing systemd journal logs older than 1 day",
         "journalctl --vacuum-time=5h",
@@ -39,7 +39,7 @@ commands = [
         "Clearing Brave Browser Metrics",
         "rm -rf ~/.config/BraveSoftware/Brave-Browser/BrowserMetrics/*",
     ],
-    ["Purging autoremovable packages", "apt autoremove --purge"],
+    ["Purging autoremovable packages", "apt autoremove -y --purge"],
     ["Clearing syslog", "cat /dev/null > /var/log/syslog"],
     ["Removing syslog.1", "rm /var/log/syslog.1"],
     ["Clearing VS Code cache", "rm -rf ~/.config/Code/Cache/Cache_Data/*"],
