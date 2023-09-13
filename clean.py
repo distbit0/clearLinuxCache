@@ -16,7 +16,7 @@ commands = [
     ["Clearing user-specific cache", "rm -rf ~/.cache/*"],
     (
         "Clearing Brave browser cache",
-        "rm -rf ~/.config/BraveSoftware/Brave-Browser/Default/Cache/*",
+        "rm -rf ~/.config/BraveSoftware/Brave-Browser/Defaultcd /Cache/*",
     ),
     ["Clearing Thumbnail cache", "rm -rf ~/.cache/thumbnails/*"],
     ["Clearing CUPS print jobs", "cancel -a"],
@@ -45,7 +45,7 @@ commands = [
     ),
     (
         "Clearing Brave Browser Metrics",
-        "rm -rf /home/pimania/.config/BraveSoftware/Brave-Browser/BrowserMetrics/*",
+        "rm -rf ~/.config/BraveSoftware/Brave-Browser/BrowserMetrics/*",
     ),
     ["Purging autoremovable packages", "apt --purge autoremove"],
     ["Clearing syslog", "cat /dev/null > /var/log/syslog"],
