@@ -1,55 +1,59 @@
 import subprocess
 import shutil
+import argparse
+import os
 
-
-home_directory = "/home/pimania"  # specify your custom home directory here
+# Parsing command-line arguments
+parser = argparse.ArgumentParser(description="Clean-up script")
+parser.add_argument("--extreme", action="store_true", help="Perform extreme clean")
 
 
 commands = [
     ["Clearing apt cache", "sudo apt clean"],
     ["Clearing old downloaded archive files", "sudo apt-get autoclean"],
     ["Clearing old unused kernel and dependencies", "sudo apt autoremove --purge"],
-    (
+    [
         "Clearing systemd journal logs older than 1 day",
         "sudo journalctl --vacuum-time=5h",
-    ),
+    ],
     ["Clearing user-specific cache", "rm -rf ~/.cache/*"],
-    (
-        "Clearing Brave browser cache",
-        "rm -rf ~/.config/BraveSoftware/Brave-Browser/Defaultcd /Cache/*",
-    ),
     ["Clearing Thumbnail cache", "rm -rf ~/.cache/thumbnails/*"],
     ["Clearing CUPS print jobs", "cancel -a"],
-    (
+    [
         "Deleting old configuration files",
         "sudo dpkg -l | grep '^rc' | awk '{print $2}' | xargs sudo dpkg --purge",
-    ),
-    (
+    ],
+    [
         "Deleting old Linux Headers",
         "sudo apt autoremove --purge -y $(dpkg --list | grep linux-image | awk '{ print $2 }' | sort -V | sed -n '/'`uname -r`'/q;p')",
-    ),
+    ],
     ["Deleting unused Flatpak packages", "flatpak uninstall --unused"],
-    ["Deleting Signal Attachments", "rm -rf ~/.config/Signal/attachments.noindex/*"],
-    ["Deleting Zoom cache", "rm -rf ~/.zoom/*"],
     ["Deleting Node Modules cache", "npm cache clean --force"],
     ["Deleting local Python packages cache", "pip cache purge"],
-    (
-        "Clearing Brave Service Worker cache",
-        "rm -rf ~/.config/BraveSoftware/Brave-Browser/Default/Service\\ Worker/*",
-    ),
     ["Clearing npm cache", "rm -rf ~/.npm/_cacache/content-v2/sha512/*"],
     ["Clearing VS Code cache", "rm -rf ~/.config/Code/CachedData/*"],
-    (
+    [
         "Clearing VS Code Extensions cache",
         "rm -rf ~/.config/Code/CachedExtensionVSIXs/*",
-    ),
-    (
+    ],
+    [
         "Clearing Brave Browser Metrics",
         "rm -rf ~/.config/BraveSoftware/Brave-Browser/BrowserMetrics/*",
-    ),
+    ],
     ["Purging autoremovable packages", "apt --purge autoremove"],
     ["Clearing syslog", "cat /dev/null > /var/log/syslog"],
     ["Removing syslog.1", "rm /var/log/syslog.1"],
+    ["Clearing VS Code cache", "rm -rf ~/.config/Code/Cache/Cache_Data/*"],
+    ["Clearing VS Code cache", "rm -rf ~/.config/Obsidian/Cache/Cache_Data/*"],
+]
+
+extremeCleanCommands = [
+    [
+        "Clearing Brave Service Worker cache",
+        "rm -rf ~/.config/BraveSoftware/Brave-Browser/Default/Service\\ Worker/*",
+    ],
+    ["Deleting Signal Attachments", "rm -rf ~/.config/Signal/attachments.noindex/*"],
+    ["Deleting Zoom cache", "rm -rf ~/.zoom/*"],
 ]
 
 
@@ -76,6 +80,7 @@ def remove_disabled_snaps():
 
 
 def replace_tilde_with_home_directory(command):
+    home_directory = os.path.expanduser("~")
     return command.replace("~", home_directory)
 
 
@@ -89,12 +94,19 @@ def print_and_execute_command(description, command):
         print(f"Error: {result.stderr.decode()}")
 
 
-def executeCommands():
+def executeCommands(extremeClean=False):
+    if extremeClean:
+        print("\nPerforming extreme clean...\n")
+        for command in extremeCleanCommands:
+            print_and_execute_command(command[0], command[1])
+    else:
+        print("\nPerforming safe clean...\n")
     for command in commands:
         print_and_execute_command(command[0], command[1])
 
 
 if __name__ == "__main__":
-    print("\nPerforming safe delete operations...\n")
-    executeCommands()
+    args = parser.parse_args()
+    extremeClean = args.extreme
+    executeCommands(extremeClean)
     remove_disabled_snaps()
