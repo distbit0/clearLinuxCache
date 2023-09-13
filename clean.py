@@ -3,6 +3,17 @@ import shutil
 import argparse
 import os
 
+
+def get_free_space():
+    df_output = subprocess.check_output("df -h /", shell=True, text=True)
+    lines = df_output.strip().split("\n")
+    headers = lines[0].split()
+    values = lines[1].split()
+    free_space_index = headers.index("Used")
+    free_space_value = values[free_space_index]
+    return free_space_value
+
+
 # Parsing command-line arguments
 parser = argparse.ArgumentParser(description="Clean-up script")
 parser.add_argument("--extreme", action="store_true", help="Perform extreme clean")
@@ -105,5 +116,11 @@ def executeCommands(extremeClean=False):
 if __name__ == "__main__":
     args = parser.parse_args()
     extremeClean = args.extreme
+
+    initial_free_space = get_free_space()
     executeCommands(extremeClean)
     remove_disabled_snaps()
+
+    final_free_space = get_free_space()
+    print(f"Initial disk usage: {initial_free_space}")
+    print(f"Final disk usafe: {final_free_space}")
