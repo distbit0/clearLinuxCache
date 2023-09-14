@@ -123,4 +123,4 @@ if __name__ == "__main__":
 
     final_free_space = get_free_space()
     print(f"Initial disk usage: {initial_free_space}")
-    print(f"Final disk usafe: {final_free_space}")
+    print(f"Final disk usage: {final_free_space}")
