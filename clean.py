@@ -17,6 +17,9 @@ def get_free_space():
 # Parsing command-line arguments
 parser = argparse.ArgumentParser(description="Clean-up script")
 parser.add_argument("--extreme", action="store_true", help="Perform extreme clean")
+parser.add_argument(
+    "--username", default=None, help="Specify username to construct home directory path"
+)
 
 
 commands = [
@@ -88,37 +91,40 @@ def remove_disabled_snaps():
     print_and_execute_command("Deleting Snap cache", "rm -rf /var/lib/snapd/cache/*")
 
 
-def replace_tilde_with_home_directory(command):
-    home_directory = os.path.expanduser("~")
+def replace_tilde_with_home_directory(command, home_directory):
     return command.replace("~", home_directory)
 
 
-def print_and_execute_command(description, command):
-    command = replace_tilde_with_home_directory(command)
+def print_and_execute_command(description, command, home_directory):
+    command = replace_tilde_with_home_directory(command, home_directory)
     print("\n" + description, ":", command + "\n")
     return_code = os.system(command)
-
     if return_code != 0:
         print(f"Error: Command returned with code {return_code}")
 
 
-def executeCommands(extremeClean=False):
+def executeCommands(extremeClean, home_directory):
     if extremeClean:
         print("\nPerforming extreme clean...\n")
         for command in extremeCleanCommands:
-            print_and_execute_command(command[0], command[1])
+            print_and_execute_command(command[0], command[1], home_directory)
     else:
         print("\nPerforming safe clean...\n")
     for command in commands:
-        print_and_execute_command(command[0], command[1])
+        print_and_execute_command(command[0], command[1], home_directory)
 
 
 if __name__ == "__main__":
     args = parser.parse_args()
     extremeClean = args.extreme
 
+    if args.username:
+        home_directory = f"/home/{args.username}"
+    else:
+        home_directory = os.path.expanduser("~")
+
     initial_free_space = get_free_space()
-    executeCommands(extremeClean)
+    executeCommands(extremeClean, home_directory)
     remove_disabled_snaps()
 
     final_free_space = get_free_space()
