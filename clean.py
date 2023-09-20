@@ -5,13 +5,13 @@ import os
 
 
 def get_free_space():
-    df_output = subprocess.check_output("df -h /", shell=True, text=True)
+    df_output = subprocess.check_output("df /", shell=True, text=True)
     lines = df_output.strip().split("\n")
     headers = lines[0].split()
     values = lines[1].split()
     free_space_index = headers.index("Used")
-    free_space_value = values[free_space_index]
-    return free_space_value
+    free_space_value = int(values[free_space_index]) / 1000000
+    return round(free_space_value, 2)
 
 
 # Parsing command-line arguments
@@ -129,4 +129,6 @@ if __name__ == "__main__":
 
     final_free_space = get_free_space()
     print(f"Initial disk usage: {initial_free_space}")
-    print(f"Final disk usage: {final_free_space}")
+    print("Final disk usage:", final_free_space, "GB")
+    print("Final disk usage:", final_free_space, "GB")
+    print("Freed up:", round(initial_free_space - final_free_space, 3), "GB")
