@@ -128,7 +128,6 @@ if __name__ == "__main__":
     remove_disabled_snaps()
 
     final_free_space = get_free_space()
-    print(f"Initial disk usage: {initial_free_space}")
-    print("Final disk usage:", final_free_space, "GB")
+    print("Initial disk usage:", initial_free_space, "GB")
     print("Final disk usage:", final_free_space, "GB")
     print("Freed up:", round(initial_free_space - final_free_space, 3), "GB")
