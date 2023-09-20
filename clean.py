@@ -71,7 +71,7 @@ extremeCleanCommands = [
 ]
 
 
-def remove_disabled_snaps():
+def remove_disabled_snaps(home_directory):
     # Check if Snap is installed
     if shutil.which("snap") is None:
         print("Snap is not installed. Exiting function.")
@@ -86,9 +86,15 @@ def remove_disabled_snaps():
 
     # Assuming print_and_execute_command is defined elsewhere in your code
     print_and_execute_command(
-        "Setting Snap refresh retain limit", "snap set system refresh.retain=2"
+        "Setting Snap refresh retain limit",
+        "snap set system refresh.retain=2",
+        home_directory,
     )
-    print_and_execute_command("Deleting Snap cache", "rm -rf /var/lib/snapd/cache/*")
+    print_and_execute_command(
+        "Deleting Snap cache",
+        "rm -rf /var/lib/snapd/cache/*",
+        home_directory,
+    )
 
 
 def replace_tilde_with_home_directory(command, home_directory):
@@ -124,8 +130,9 @@ if __name__ == "__main__":
         home_directory = os.path.expanduser("~")
 
     initial_free_space = get_free_space()
+    print("Initial disk usage:", initial_free_space, "GB")
     executeCommands(extremeClean, home_directory)
-    remove_disabled_snaps()
+    remove_disabled_snaps(home_directory)
 
     final_free_space = get_free_space()
     print("Initial disk usage:", initial_free_space, "GB")
