@@ -68,6 +68,7 @@ extremeCleanCommands = [
     ["Deleting Signal Attachments", "rm -rf ~/.config/Signal/attachments.noindex/*"],
     ["Deleting Screenshots", "rm -rf ~/Pictures/Screenshots/*"],
     ["Deleting Screencasts", "rm -rf ~/Pictures/Casts/*"],
+    ["Empty trash", "rm -rf ~/.local/share/Trash/*"],
 ]
 
 
