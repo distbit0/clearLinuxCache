@@ -24,7 +24,8 @@ parser.add_argument(
 
 commands = [
     ["Clearing apt cache", "apt clean -y"],
-    ["Clearing old downloaded archive files", "apt-get autoclean -y"],
+    ["Clearing apt cache", "apt autoclean -y"],
+    ["Clearing apt cache", "apt autremove -y"],
     [
         "Clearing systemd journal logs older than 1 day",
         "journalctl --vacuum-time=5h",
@@ -69,6 +70,7 @@ extremeCleanCommands = [
     ["Deleting Screenshots", "rm -rf ~/Pictures/Screenshots/*"],
     ["Deleting Screencasts", "rm -rf ~/Pictures/Casts/*"],
     ["Empty trash", "rm -rf ~/.local/share/Trash/*"],
+    ["Delete misc images in Pictures folder", "rm -rf ~/Pictures/*.png"],
 ]
 
 
