@@ -37,10 +37,10 @@ commands = [
         "Deleting old configuration files",
         "dpkg -l | grep '^rc' | awk '{print $2}' | xargs dpkg --purge",
     ],
-    [
-        "Deleting old Linux Headers",
-        "apt autoremove --purge -y $(dpkg --list | grep linux-image | awk '{ print $2 }' | sort -V | sed -n '/'`uname -r`'/q;p')",
-    ],
+    # [
+    #     "Deleting old Linux Headers",
+    #     "apt autoremove --purge -y $(dpkg --list | grep linux-image | awk '{ print $2 }' | sort -V | sed -n '/'`uname -r`'/q;p')",
+    # ],
     ["Deleting unused Flatpak packages", "flatpak uninstall --unused"],
     ["Deleting Node Modules cache", "npm cache clean --force"],
     ["Deleting local Python packages cache", "pip cache purge"],
@@ -126,6 +126,11 @@ def executeCommands(extremeClean, home_directory):
 if __name__ == "__main__":
     args = parser.parse_args()
     extremeClean = args.extreme
+
+    # abort if not run with sudo
+    if not os.geteuid() == 0:
+        print("This script must be run as root")
+        exit(1)
 
     if args.username:
         home_directory = f"/home/{args.username}"
