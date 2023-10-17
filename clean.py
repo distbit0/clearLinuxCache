@@ -30,7 +30,7 @@ commands = [
         "Clearing systemd journal logs older than 1 day",
         "journalctl --vacuum-time=5h",
     ],
-    ["Clearing user-specific cache", "rm -rf ~/.cache/*"],
+    # ["Clearing user-specific cache", "rm -rf ~/.cache/*"], (this affects keepassxc)
     ["Clearing Thumbnail cache", "rm -rf ~/.cache/thumbnails/*"],
     ["Clearing CUPS print jobs", "cancel -a"],
     [
@@ -51,8 +51,8 @@ commands = [
         "rm -rf ~/.config/Code/CachedExtensionVSIXs/*",
     ],
     [
-        "Clearing Brave Browser Metrics",
-        "rm -rf ~/.config/BraveSoftware/Brave-Browser/BrowserMetrics/*",
+        "Clearing chrome Browser Metrics",
+        "rm -rf ~/.config/google-chrome/BrowserMetrics/*",
     ],
     ["Purging autoremovable packages", "apt autoremove -y --purge"],
     ["Clearing syslog", "cat /dev/null > /var/log/syslog"],
@@ -63,8 +63,8 @@ commands = [
 
 extremeCleanCommands = [
     [
-        "Clearing Brave Service Worker cache",
-        "rm -rf ~/.config/BraveSoftware/Brave-Browser/Default/Service\\ Worker/*",
+        "Clearing chrome Service Worker cache",
+        "rm -rf ~/.config/google-chrome/Default/Service\\ Worker/*",
     ],
     ["Deleting Signal Attachments", "rm -rf ~/.config/Signal/attachments.noindex/*"],
     ["Deleting Screenshots", "rm -rf ~/Pictures/Screenshots/*"],
