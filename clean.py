@@ -22,24 +22,21 @@ parser.add_argument(
 )
 
 
-commands = [
-    ["Clearing apt cache", "apt clean -y"],
-    ["Clearing apt cache", "apt autoclean -y"],
-    ["Clearing apt cache", "apt autremove -y"],
-    [
-        "Clearing systemd journal logs older than 1 day",
-        "journalctl --vacuum-time=5h",
-    ],
-    # ["Clearing user-specific cache", "rm -rf ~/.cache/*"], (this affects keepassxc)
+commands_fedora = [
+    ["Clearing DNF cache", "dnf clean all"],
+    ["Clearing DNF cache", "dnf clean expire-cache"],
+    ["Clearing DNF cache", "dnf autoremove"],
+    ["Clearing systemd journal logs older than 2 days", "journalctl --vacuum-time=2d"],
+    # ["Clearing user-specific cache", "rm -rf ~/.cache/*"],  # Note: This affects keepassxc
     ["Clearing Thumbnail cache", "rm -rf ~/.cache/thumbnails/*"],
     ["Clearing CUPS print jobs", "cancel -a"],
     [
         "Deleting old configuration files",
-        "dpkg -l | grep '^rc' | awk '{print $2}' | xargs dpkg --purge",
+        "# Fedora doesn't store old config files like dpkg",
     ],
     # [
     #     "Deleting old Linux Headers",
-    #     "apt autoremove --purge -y $(dpkg --list | grep linux-image | awk '{ print $2 }' | sort -V | sed -n '/'`uname -r`'/q;p')",
+    #     "dnf remove --oldinstallonly --setopt installonly_limit=2 kernel"
     # ],
     ["Deleting unused Flatpak packages", "flatpak uninstall --unused"],
     ["Deleting Node Modules cache", "npm cache clean --force"],
@@ -50,21 +47,18 @@ commands = [
         "Clearing VS Code Extensions cache",
         "rm -rf ~/.config/Code/CachedExtensionVSIXs/*",
     ],
-    [
-        "Clearing chrome Browser Metrics",
-        "rm -rf ~/.config/google-chrome/BrowserMetrics/*",
-    ],
-    ["Purging autoremovable packages", "apt autoremove -y --purge"],
-    ["Clearing syslog", "cat /dev/null > /var/log/syslog"],
-    ["Removing syslog.1", "rm /var/log/syslog.1"],
+    # ["Clearing Brave Browser Metrics", "rm -rf ~/.config/BraveSoftware/Brave-Browser/BrowserMetrics/*"],
+    ["Purging autoremovable packages", "dnf autoremove"],
+    ["Clearing syslog", "journalctl --vacuum-time=2d"],
+    ["Removing syslog.1", "# This would also be covered under journalctl"],
     ["Clearing VS Code cache", "rm -rf ~/.config/Code/Cache/Cache_Data/*"],
     ["Clearing Obsidian cache", "rm -rf ~/.config/obsidian/Cache/Cache_Data/*"],
 ]
 
-extremeCleanCommands = [
+extremeCleanCommands_fedora = [
     [
-        "Clearing chrome Service Worker cache",
-        "rm -rf ~/.config/google-chrome/Default/Service\\ Worker/*",
+        "Clearing Brave Service Worker cache",
+        "rm -rf ~/.config/BraveSoftware/Brave-Browser/Default/Service\\ Worker/*",
     ],
     ["Deleting Signal Attachments", "rm -rf ~/.config/Signal/attachments.noindex/*"],
     ["Deleting Screenshots", "rm -rf ~/Pictures/Screenshots/*"],
