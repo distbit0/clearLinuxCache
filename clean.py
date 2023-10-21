@@ -22,7 +22,7 @@ parser.add_argument(
 )
 
 
-commands_fedora = [
+commands = [
     ["Clearing DNF cache", "dnf clean all"],
     ["Clearing DNF cache", "dnf clean expire-cache"],
     ["Clearing DNF cache", "dnf autoremove"],
@@ -30,10 +30,6 @@ commands_fedora = [
     # ["Clearing user-specific cache", "rm -rf ~/.cache/*"],  # Note: This affects keepassxc
     ["Clearing Thumbnail cache", "rm -rf ~/.cache/thumbnails/*"],
     ["Clearing CUPS print jobs", "cancel -a"],
-    [
-        "Deleting old configuration files",
-        "# Fedora doesn't store old config files like dpkg",
-    ],
     # [
     #     "Deleting old Linux Headers",
     #     "dnf remove --oldinstallonly --setopt installonly_limit=2 kernel"
@@ -55,7 +51,7 @@ commands_fedora = [
     ["Clearing Obsidian cache", "rm -rf ~/.config/obsidian/Cache/Cache_Data/*"],
 ]
 
-extremeCleanCommands_fedora = [
+extremeCleanCommands = [
     [
         "Clearing Brave Service Worker cache",
         "rm -rf ~/.config/BraveSoftware/Brave-Browser/Default/Service\\ Worker/*",
