@@ -25,7 +25,7 @@ parser.add_argument(
 commands = [
     ["Clearing DNF cache", "dnf clean all"],
     ["Clearing DNF cache", "dnf clean expire-cache"],
-    ["Clearing DNF cache", "dnf autoremove"],
+    ["Clearing DNF cache", "dnf autoremove -y"],
     ["Clearing systemd journal logs older than 2 days", "journalctl --vacuum-time=2d"],
     # ["Clearing user-specific cache", "rm -rf ~/.cache/*"],  # Note: This affects keepassxc
     ["Clearing Thumbnail cache", "rm -rf ~/.cache/thumbnails/*"],
@@ -44,7 +44,6 @@ commands = [
         "rm -rf ~/.config/Code/CachedExtensionVSIXs/*",
     ],
     # ["Clearing Brave Browser Metrics", "rm -rf ~/.config/BraveSoftware/Brave-Browser/BrowserMetrics/*"],
-    ["Purging autoremovable packages", "dnf autoremove"],
     ["Clearing syslog", "journalctl --vacuum-time=2d"],
     ["Removing syslog.1", "# This would also be covered under journalctl"],
     ["Clearing VS Code cache", "rm -rf ~/.config/Code/Cache/Cache_Data/*"],
